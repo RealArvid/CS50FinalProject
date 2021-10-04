@@ -1,28 +1,88 @@
-max = 20
-iMax = max
-jMax = max
+import tkinter as tk
+from tkinter import ttk
 
-class Cell:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-    def print(self):
-        print(f"x: {self.x}, y: {self.y}")
 
-def adjacentCells(i,j):
-    adjacentCellList = []
-    for row in [i-1, i, i+1]: # Checking the previous row, the current row and the next row
-        if row >= 0 and row < iMax: # Checking so that the row index is not out of range
-            for column in [j-1, j, j+1]: # Checking the previous column, the current column and the next column
-                if column >= 0 and column < jMax: # Checking so that the column index is not out of range
-                    if not (row == i and column == j): # Not adding the input coordinates to the list
-                        testCell = Cell(row,column)
-                        testCell.print()
-                        adjacentCellList.append(Cell(row,column))
-    return adjacentCellList
+def create_input_frame(container):
 
-adjacentCellList = adjacentCells(2,2)
+    frame = ttk.Frame(container)
 
-for pos in adjacentCellList:
-    pass
-    #pos.print()
+    # grid layout for the input frame
+    frame.columnconfigure(0, weight=1)
+    frame.columnconfigure(0, weight=3)
+
+    # Find what
+    ttk.Label(frame, text='Find what:').grid(column=0, row=0, sticky=tk.W)
+    keyword = ttk.Entry(frame, width=30)
+    keyword.focus()
+    keyword.grid(column=1, row=0, sticky=tk.W)
+
+    # Replace with:
+    ttk.Label(frame, text='Replace with:').grid(column=0, row=1, sticky=tk.W)
+    replacement = ttk.Entry(frame, width=30)
+    replacement.grid(column=1, row=1, sticky=tk.W)
+
+    # Match Case checkbox
+    match_case = tk.StringVar()
+    match_case_check = ttk.Checkbutton(
+        frame,
+        text='Match case',
+        variable=match_case,
+        command=lambda: print(match_case.get()))
+    match_case_check.grid(column=0, row=2, sticky=tk.W)
+
+    # Wrap Around checkbox
+    wrap_around = tk.StringVar()
+    wrap_around_check = ttk.Checkbutton(
+        frame,
+        variable=wrap_around,
+        text='Wrap around',
+        command=lambda: print(wrap_around.get()))
+    wrap_around_check.grid(column=0, row=3, sticky=tk.W)
+
+    for widget in frame.winfo_children():
+        widget.grid(padx=0, pady=5)
+
+    return frame
+
+
+def create_button_frame(container):
+    frame = ttk.Frame(container)
+
+    frame.columnconfigure(0, weight=1)
+
+    ttk.Button(frame, text='Find Next').grid(column=0, row=0)
+    ttk.Button(frame, text='Replace').grid(column=0, row=1)
+    ttk.Button(frame, text='Replace All').grid(column=0, row=2)
+    ttk.Button(frame, text='Cancel').grid(column=0, row=3)
+
+    for widget in frame.winfo_children():
+        widget.grid(padx=0, pady=3)
+
+    return frame
+
+
+def create_main_window():
+
+    # root window
+    root = tk.Tk()
+    root.title('Replace')
+    root.geometry('400x150')
+    root.resizable(0, 0)
+    # windows only (remove the minimize/maximize button)
+    root.attributes('-toolwindow', True)
+
+    # layout on the root window
+    root.columnconfigure(0, weight=4)
+    root.columnconfigure(1, weight=1)
+
+    input_frame = create_input_frame(root)
+    input_frame.grid(column=0, row=0)
+
+    button_frame = create_button_frame(root)
+    button_frame.grid(column=1, row=0)
+
+    root.mainloop()
+
+
+if __name__ == "__main__":
+    create_main_window()
