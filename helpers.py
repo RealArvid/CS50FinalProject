@@ -10,16 +10,18 @@ class Cell:
 
 def valueBoardCreator(iMax, jMax, pMines): # Returns a board of values in which 0-8 indicate the number of adjacent mines and 9 indicates mines
     rowList=[]
+    numberOfMines = 0
     for i in range(0, iMax):
         columnList=[]
         for j in range(0, jMax):
             if random() < pMines:
                 columnList.append(9) # Mines are assigned value 9
+                numberOfMines += 1
             else:
                 columnList.append(0) # Cells with no mines are assinged value 0
         rowList.append(columnList)
     valueBoard = calculateAdjacentMines(rowList, iMax, jMax)
-    return valueBoard
+    return valueBoard, numberOfMines
 
 
 # Cells, i.e. list items in board[i][j], are assigned values corresponing to the number of adjacent mines
@@ -80,3 +82,23 @@ def importCombineImages(inputLocation1, inputLocation2, iconSize):
     img = img1.paste(img2, (0, 0), img2)
     outputObject = ImageTk.PhotoImage(img1.resize((iconSize, iconSize), Image.ANTIALIAS))
     return outputObject
+
+# Returns true if input is empty or consists only of digits <= inputMax
+def trueForEmptyOrDigitMax(input, inputMax):
+    if input.isdigit(): # Checks if all characters in the input text (str-object) are digits
+        if int(input) <= inputMax:
+            return True
+        else:
+            return False                     
+    elif input == "": # Checks if input is empty. Necessary to be able to delete al text in entry box
+        return True
+    else:
+        return False
+
+# Returns true if input is empty or consists only of digits <= 50
+def trueForEmptyOrDigitMax50(input): 
+    return trueForEmptyOrDigitMax(input, 50)
+
+# Returns true if input is empty or consists only of digits <= 30
+def trueForEmptyOrDigitMax30(input): 
+    return trueForEmptyOrDigitMax(input, 30)
