@@ -3,9 +3,6 @@ from time import perf_counter
 from tkinter import *
 from tkinter import messagebox
 
-#My name is Arvid Hedbäck.
-#I'm from Stockholm, Sweden
-
 # According to the scaling factor, the application window will never occupy more than the corresponding percentage of either the screen width or screen height
 # Fonts and icon sizes are also scaled accordingly
 scalingFactor = 0.7 
